@@ -11,7 +11,7 @@ public class Logstash {
     Logger logger= LoggerFactory.getLogger(Logstash.class);
     @Test
     public void test(){
-        logger.error("error");
+        logger.error("FromLogback");
     }
 
 }

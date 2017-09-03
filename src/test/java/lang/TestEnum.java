@@ -19,8 +19,17 @@ public class TestEnum {
         }
     }
 
+    public enum STATUS{
+        AVAILABLE,UNAVAILABLE
+    }
+
+    @Test
+    public void test2(){
+        System.out.println(STATUS.valueOf("AVAILABLE"));
+    }
+
     @Test
     public void test(){
-        System.out.println(MODULE.BP.toString());
+        System.out.println(MODULE.valueOf(MODULE.class,"BP"));
     }
 }

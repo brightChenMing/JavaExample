@@ -1,27 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration scan="true" scanPeriod="30 seconds">
     <property resource="properties/logback-variables.properties" />     <!-- 得到APP_NAME log_path的值 -->
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <includeCallerData>true</includeCallerData>
         <encoder charset="UTF-8"> <!-- encoder 可以指定字符集，对于中文输出有意义 -->
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%logger:%L] - %msg%n
             </pattern>
         </encoder>
     </appender>
-    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:5000</destination>
 
-        <!-- encoder is required -->
-        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"/>
+    <appender name="FILE1" class="ch.qos.logback.core.FileAppender">
+        <file>myApp.log</file>
+
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
     </appender>
+
+    <appender name="FILE2" class="ch.qos.logback.core.FileAppender">
+        <file>myApp2.log</file>
+
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+
+    <!--<appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>10.62.54.203:5001</destination>
+
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>-->
 
     <!--<appender name="async" class="ch.qos.logback.classic.AsyncAppender">-->
     <!--<appender-ref ref="stash" />-->
     <!--</appender>-->
 
 
-    <root level="info">                    <!-- 设置日志级别 -->
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="stash" />
+    <root level="info"><!-- 设置日志级别 -->
+        <appender-ref ref="STDOUT"/>
     </root>
+
+    <logger name="log.appender" level="debug">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE2"/>
+    </logger>
+
 </configuration>
